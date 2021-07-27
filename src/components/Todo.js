@@ -2,7 +2,7 @@ import { Modal, Button } from "antd";
 import { CloseCircleTwoTone } from "@ant-design/icons";
 import { FaCheckDouble, FaTimesCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { completeTodo, deleteTodo } from "../redux/todoSlice";
+import { updateTodoAsync, deleteTodo } from "../redux/todoSlice";
 import { useState } from "react";
 
 function Todo({ todo, status }) {
@@ -10,7 +10,7 @@ function Todo({ todo, status }) {
   const dispatch = useDispatch();
   const handleCompleteButton = (todoID) => {
     dispatch(
-      completeTodo({
+      updateTodoAsync({
         id: todoID,
         isCompleted: true,
       })
@@ -18,7 +18,7 @@ function Todo({ todo, status }) {
   };
   const undoCompletedTodo = (todoID) => {
     dispatch(
-      completeTodo({
+      updateTodoAsync({
         id: todoID,
         isCompleted: false,
       })
@@ -35,7 +35,7 @@ function Todo({ todo, status }) {
       </Button>
       <Button
         className="button complete"
-        onClick={() => handleDeleteButton(todo.id)}
+        onClick={() => handleDeleteButton(todo._id)}
       >
         Ok
       </Button>
@@ -44,7 +44,8 @@ function Todo({ todo, status }) {
   return (
     <div className="todo">
       <div>
-        <p> ID: {todo.id} </p> <p> Text: {todo.task} </p>
+      <p>ID: {todo._id}</p>
+        <p>Task: {todo.task}</p>
         <div className="todoStatus">
           <p> Completed: </p>
           {todo.isCompleted ? <FaCheckDouble /> : <FaTimesCircle />}
@@ -53,7 +54,7 @@ function Todo({ todo, status }) {
           {!todo.isCompleted ? (
             <Button
               className="button complete"
-              onClick={() => handleCompleteButton(todo.id)}
+              onClick={() => handleCompleteButton(todo._id)}
             >
               Completed
             </Button>
@@ -61,7 +62,7 @@ function Todo({ todo, status }) {
           {todo.isCompleted === true ? (
             <Button
               className="button complete"
-              onClick={() => undoCompletedTodo(todo.id)}
+              onClick={() => undoCompletedTodo(todo._id)}
             >
               Uncompleted
             </Button>
@@ -75,10 +76,10 @@ function Todo({ todo, status }) {
         visible={show}
         footer={footerModal}
         onCancel={() => setShow(false)}
-        title={<b>Confirm</b>}
+        title={<b> Confirm </b>}
       >
         <CloseCircleTwoTone twoToneColor="#dfa111" />
-        Are you sure you want to delete this task?
+        Are you sure you want to delete this task ?
       </Modal>
     </div>
   );

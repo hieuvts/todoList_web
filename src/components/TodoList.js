@@ -2,6 +2,7 @@ import Todo from "./Todo";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTodoAsync } from "../redux/todoSlice";
+
 function TodoList({ setTodo }) {
   const dispatch = useDispatch();
   const todo = useSelector((state) => state.todo);
@@ -14,10 +15,11 @@ function TodoList({ setTodo }) {
   // );
   return (
     <div>
-      {/* <h1>Uncompleted Todo {uncompletedTodoList.length}</h1> */}
+      {" "}
+      {/* <h1>Uncompleted Todo {uncompletedTodoList.length}</h1> */}{" "}
       {todo.map((value, index) => {
         return <Todo key={index} todo={value} status="uncompleted" />;
-      })}
+      })}{" "}
     </div>
   );
 }

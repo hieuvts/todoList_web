@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Input, Button } from "antd";
 import { useDispatch } from "react-redux";
-import { addTodo } from "../redux/todoSlice";
+import { addTodoAsync } from "../redux/todoSlice";
+
 function TodoInput() {
   const [inputValue, setInputValue] = useState("");
   const dispatch = useDispatch();
@@ -9,14 +10,10 @@ function TodoInput() {
     if (!inputValue) return;
     const newTodo = {
       id: Math.floor(Math.random() * 100),
-      text: inputValue,
+      task: inputValue,
       isCompleted: false,
     };
-
-    console.log(newTodo);
-    dispatch(
-      addTodo(newTodo)
-    );
+    dispatch(addTodoAsync(newTodo));
     setInputValue("");
   };
   return (
@@ -27,16 +24,16 @@ function TodoInput() {
         placeholder="Add task"
         onPressEnter={handleInput}
         onChange={(e) => setInputValue(e.target.value)}
-      />
+      />{" "}
       <Button
         className="button-add"
         type="primary"
         shape="round"
         onClick={handleInput}
       >
-        Add
-      </Button>
-      <p>InputValue: {inputValue}</p>
+        Add{" "}
+      </Button>{" "}
+      <p> InputValue: {inputValue} </p>{" "}
     </div>
   );
 }
