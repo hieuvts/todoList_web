@@ -1,19 +1,34 @@
-import "./styled.scss";
+import "./appStyle.scss";
 import "antd/dist/antd.css";
-import TodoList from "./components/TodoList";
-// import CompletedTodoList from "./components/CompletedTodoList";
+import UncompletedTodoList from "./components/UncompletedTodoList";
+import CompletedTodoList from "./components/CompletedTodoList";
 import TodoInput from "./components/TodoInput";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getTodoAsync } from "./redux/todoSlice";
+import { useEffect } from "react";
 
 function App() {
-  const totalTodo = useSelector((state) => state.todo);
+  const todo = useSelector((state) => state.todo);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getTodoAsync());
+  }, [dispatch]);
+  const uncompletedTodoList = todo.filter(
+    (element) => element.isCompleted === false
+  );
+  const completedTodoList = todo.filter(
+    (element) => element.isCompleted === true
+  );
   return (
-    <div className="appBody">
-      <h1> What is today task ? </h1> <p> Total todo :{totalTodo.length} </p>
+    <div>
+      <h1> What is today task ? </h1>
       <TodoInput />
       <div className="allTodo">
-        <TodoList /> {/* <CompletedTodoList /> */}{" "}
-      </div>{" "}
+        <UncompletedTodoList todo={uncompletedTodoList} />
+        <h2> Total todo :{todo.length} </h2>{" "}
+        <CompletedTodoList todo={completedTodoList} />
+      </div>
     </div>
   );
 }

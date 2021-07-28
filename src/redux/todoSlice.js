@@ -1,11 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// const initialState = [
-//   { id: 1, text: "Todo 1", isCompleted: false },
-//   { id: 2, text: "Todo 2", isCompleted: true },
-//   { id: 3, text: "Todo 3", isCompleted: true },
-// ];
-
+const api_url = "http://52.151.17.51:8000/api";
 export const getTodoAsync = createAsyncThunk(
   "todos/getTodosAsync",
   async () => {
@@ -13,6 +8,8 @@ export const getTodoAsync = createAsyncThunk(
     if (response.ok) {
       const todos = await response.json();
       return { todos };
+    } else {
+      console.log("Response: ", response.status);
     }
   }
 );
@@ -20,12 +17,10 @@ export const getTodoAsync = createAsyncThunk(
 export const addTodoAsync = createAsyncThunk(
   "todos/addTodoAsync",
   async (payload) => {
-    // const response = await fetch("http://52.151.17.51:8000/api/todo/create");
     const response = await fetch("http://52.151.17.51:8000/api/todo/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: JSON.stringify({
         task: payload.task,
@@ -37,7 +32,7 @@ export const addTodoAsync = createAsyncThunk(
       const todo = await response.json();
       return { todo };
     } else {
-      console.log("failed response: ", response);
+      console.log("Response: ", response.status);
     }
   }
 );
@@ -52,21 +47,40 @@ export const updateTodoAsync = createAsyncThunk(
         headers: {
           "Content-Type": "application/json",
         },
+        redirect: "follow",
         body: JSON.stringify({
-          id: payload.id,
           isCompleted: payload.isCompleted,
         }),
       }
     );
-
     if (response.ok) {
       const todo = await response.json();
-      return { id: todo.id, isCompleted: todo.isCompleted };
+      return { id: todo._id, isCompleted: todo.isCompleted };
     } else {
-      console.log("update failed at api call ", response);
+      console.log("Response: ", response.status);
     }
   }
 );
+
+export const deleteTodoAsync = createAsyncThunk(
+  "todos/deleteTodoAsync",
+  async (payload) => {
+    const response = await fetch(
+      `http://52.151.17.51:8000/api/todo/${payload.id}/delete`,
+      {
+        method: "DELETE",
+      }
+    );
+    if (response.ok) {
+      const todo = await response.json();
+      const task_deleted = todo.id;
+      return { id: todo.id};
+    } else {
+      console.log("Response: ", response.status);
+    }
+  }
+);
+
 const todoSlice = createSlice({
   name: "todo",
   initialState: [],
@@ -88,26 +102,47 @@ const todoSlice = createSlice({
     },
   },
   extraReducers: {
-    [getTodoAsync.pending]: (state, action) => {},
+    [getTodoAsync.pending]: () => {
+      console.log("[PENDING] getTodoAsync");
+    },
     [getTodoAsync.fulfilled]: (state, action) => {
+      console.log("[FULFILLED] getTodoAsync");
       return action.payload.todos;
     },
     [addTodoAsync.pending]: () => {
-      console.log("Pending addTodoAsync");
+      console.log("[PENDING] addTodoAsync");
     },
     [addTodoAsync.rejected]: () => {
-      console.log("addTodoAsync is rejected");
+      console.log("[REJECTED] addTodoAsync");
     },
     [addTodoAsync.fulfilled]: (state, action) => {
-      console.log("New todo is added successfully");
+      console.log("[FULFILLED] addTodoAsync");
       state.push(action.payload.todo);
     },
     [updateTodoAsync.pending]: () => {
-      console.log("Update todo is pending");
+      console.log("[PENDING] updateTodoAsync");
+    },
+    [updateTodoAsync.rejected]: () => {
+      console.log("[REJECTED] updateTodoAsync");
     },
     [updateTodoAsync.fulfilled]: (state, action) => {
-      const index = state.findIndex((todo) => todo.id === action.payload.id);
-      state[index].isCompleted = action.payload.isCompleted;
+      try {
+        const index = state.findIndex((todo) => todo._id === action.payload.id);
+        state[index].isCompleted = action.payload.isCompleted;
+        console.log("[FULFILLED] updateTodoAsync");
+      } catch (e) {
+        console.log("exception ", e);
+      }
+    },
+    [deleteTodoAsync.pending]: () => {
+      console.log("[PENDING] deleteTodoAsync");
+    },
+    [deleteTodoAsync.rejected]: () => {
+      console.log("[REJECTED] deleteTodoAsync");
+    },
+    [deleteTodoAsync.fulfilled]: (state, action) => {
+      console.log("[FULFILLED] deleteTodoAsync");
+      return state.filter((todo) => todo._id !== action.payload.id);
     },
   },
 });

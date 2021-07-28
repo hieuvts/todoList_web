@@ -6,14 +6,10 @@ import { addTodoAsync } from "../redux/todoSlice";
 function TodoInput() {
   const [inputValue, setInputValue] = useState("");
   const dispatch = useDispatch();
+
   const handleInput = () => {
     if (!inputValue) return;
-    const newTodo = {
-      id: Math.floor(Math.random() * 100),
-      task: inputValue,
-      isCompleted: false,
-    };
-    dispatch(addTodoAsync(newTodo));
+    dispatch(addTodoAsync({ task: inputValue }));
     setInputValue("");
   };
   return (
@@ -24,16 +20,12 @@ function TodoInput() {
         placeholder="Add task"
         onPressEnter={handleInput}
         onChange={(e) => setInputValue(e.target.value)}
-      />{" "}
-      <Button
-        className="button-add"
-        type="primary"
-        shape="round"
-        onClick={handleInput}
-      >
-        Add{" "}
-      </Button>{" "}
-      <p> InputValue: {inputValue} </p>{" "}
+      />
+      <button className="button-add" shape="round" onClick={handleInput}>
+        Add
+      </button>
+
+      {/* <h2> InputValue: {inputValue} </h2> */}
     </div>
   );
 }

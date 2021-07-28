@@ -1,15 +1,29 @@
 body {
     text-align: center;
     align-items: center;
-    background-image: url("./images/bg.jpg");
-    background-size: 1920px 1080px;
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+    background-attachment: fixed;
     padding: 10px;
+    margin: 200px;
+    line-height: 1.3 !important;
+}
+
+span {
+    margin-bottom: 10%;
 }
 
 h1 {
     color: white !important;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 30px;
+}
+
+h2 {
+    color: white !important;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    font-style: italic;
 }
 
 svg {
@@ -19,13 +33,34 @@ svg {
 
 .allTodo {
     display: flex;
+    padding-top: 4%;
     justify-content: space-between;
     flex-direction: row;
+    margin: 0 20% 0 20%;
+}
+
+.inputForm {
+    padding-top: 2%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .input {
-    width: 400px !important;
+    width: 50% !important;
+    height: 50px;
     margin-right: 10px !important;
+    border-radius: 10px !important;
+    border-color: transparent !important;
+}
+
+.button-add {
+    background-color: rgba(93, 12, 255, 1) !important;
+    width: auto;
+    height: 50px;
+    color: white !important;
+    font-size: 25px;
+    font-weight: 600;
     border-radius: 10px !important;
     border-color: transparent !important;
 }
@@ -46,11 +81,6 @@ svg {
     .complete {
         background-color: rgb(60, 86, 201) !important;
         color: white !important;
-    }
-    .button-add {
-        background-color: rgba(93, 12, 255, 1) !important;
-        color: white !important;
-        border-color: transparent !important;
     }
     .button-add:hover {
         background-color: rgba(255, 118, 20, 1) !important;
