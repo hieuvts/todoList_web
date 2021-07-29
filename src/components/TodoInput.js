@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Button } from "antd";
+import { Input } from "antd";
 import { useDispatch } from "react-redux";
 import { addTodoAsync } from "../redux/todoSlice";
 

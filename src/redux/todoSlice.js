@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const api_url = "http://52.151.17.51:8000/api";
 export const getTodoAsync = createAsyncThunk(
   "todos/getTodosAsync",
   async () => {
@@ -73,7 +72,6 @@ export const deleteTodoAsync = createAsyncThunk(
     );
     if (response.ok) {
       const todo = await response.json();
-      const task_deleted = todo.id;
       return { id: todo.id};
     } else {
       console.log("Response: ", response.status);
