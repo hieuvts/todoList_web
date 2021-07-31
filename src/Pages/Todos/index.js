@@ -1,7 +1,7 @@
 import TodoInput from "./TodoInput";
 import UncompletedTodoList from "./UncompletedTodoList";
 import CompletedTodoList from "./CompletedTodoList";
-import getTodoAsync from "../../redux/todoSlice";
+import { getTodoAsync } from "../../redux/todoSlice";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 

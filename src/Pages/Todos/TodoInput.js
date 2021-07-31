@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Input } from "antd";
 import { useDispatch } from "react-redux";
-import addTodoAsync from "../../redux/todoSlice";
+import { addTodoAsync } from "../../redux/todoSlice";
 
 function TodoInput() {
   const [inputValue, setInputValue] = useState("");
