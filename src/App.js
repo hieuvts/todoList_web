@@ -3,6 +3,7 @@ import "antd/dist/antd.css";
 import UncompletedTodoList from "./components/UncompletedTodoList";
 import CompletedTodoList from "./components/CompletedTodoList";
 import TodoInput from "./components/TodoInput";
+import LoginPage from "./components/Login";
 import { useSelector, useDispatch } from "react-redux";
 import { getTodoAsync } from "./redux/todoSlice";
 import { useEffect } from "react";
@@ -21,7 +22,9 @@ function App() {
     (element) => element.isCompleted === true
   );
   return (
-    <div>
+    <>
+    <LoginPage />
+    <div className='todolistbody'>
       <h1> What is today task ? </h1>
       <TodoInput />
       <div className="allTodo">
@@ -30,6 +33,7 @@ function App() {
         <CompletedTodoList todo={completedTodoList} />
       </div>
     </div>
+    </>
   );
 }
 
