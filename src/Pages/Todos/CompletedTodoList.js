@@ -1,7 +1,7 @@
 import React from "react";
 import Todo from "./Todo";
 
-function CompletedTodoList({todo}) {
+export default function CompletedTodoList({ todo }) {
   return (
     <div className="completedTodoList">
       <h1>Completed Todo {todo.length}</h1>
@@ -12,4 +12,3 @@ function CompletedTodoList({todo}) {
   );
 }
 
-export default CompletedTodoList;
